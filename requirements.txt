@@ -1,0 +1,15 @@
+selenium
+wget
+music21
+pickle
+keras
+tensorflow
+scikit-learn
+pydub
+ffmpeg-python
+midi2audio
+setuptools
+flask
+IPython
+python-rtmidi
+# -e .

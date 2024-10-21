@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIDI Player</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .player {
+      text-align: center;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<div class="player">
+  <h2>MIDI Player</h2>
+
+  <!-- Button to generate MIDI -->
+  <form action="/generate" method="POST">
+    <button type="submit">Generate MIDI</button>
+  </form>
+
+  <!-- Audio player to play the MIDI file -->
+  <audio controls>
+    <source src="/midi/test_output.mid" type="audio/midi">
+    Your browser does not support the audio tag.
+  </audio>
+</div>
+
+</body>
+</html>
