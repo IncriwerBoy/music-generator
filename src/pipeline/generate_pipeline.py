@@ -13,9 +13,9 @@ class GenerationPipeline:
         pass
     
     def pattern_creation(self):
-        net_input = load_object("../artifacts/net_input.pkl")
+        net_input = load_object("artifacts/net_input.pkl")
         in_len = len(net_input)
-        pitch_name = load_object("../artifacts/pitchnames.pkl")
+        pitch_name = load_object("artifacts/pitchnames.pkl")
         n_vocab = len(pitch_name)
         
         prediction_output = []
@@ -25,7 +25,7 @@ class GenerationPipeline:
         
         model_obj = ModelStructure()
         model = model_obj.model_build(input_shape=(100,1), n_vocab=n_vocab)
-        model = load_model('../artifacts/model.h5')
+        model = load_model('artifacts/model.h5')
         
         # generate 500 notes
         for note_index in range(500):
@@ -74,7 +74,7 @@ class GenerationPipeline:
                 # increase offset each iteration so that notes do not stack
                 offset += 0.5
             
-            midi_file = '/artifacts/test_output.mid'
+            midi_file = 'artifacts/test_output.mid'
             midi_stream = stream.Stream(output_notes)
             midi_stream.write('midi', fp=midi_file)
         

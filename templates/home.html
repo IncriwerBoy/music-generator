@@ -1,56 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MIDI Player</title>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f0f0f0;
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
-    .player {
-      text-align: center;
-      padding: 20px;
-      background-color: white;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-    }
-    button {
-      padding: 10px 20px;
-      margin: 5px;
-      border: none;
-      background-color: #4CAF50;
-      color: white;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #3700b3;
+        }
+        a {
+            display: inline-block;
+            background-color: #6200ea;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        a:hover {
+            background-color: #3700b3;
+        }
+        .message {
+            margin-top: 20px;
+            color: green;
+            font-size: 1.1rem;
+        }
+    </style>
 </head>
 <body>
+    <h1>Generate Your Music</h1>
+    <form method="POST">
+        <button type="submit">Generate Music</button>
+    </form>
 
-<div class="player">
-  <h2>MIDI Player</h2>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="message">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
 
-  <!-- Button to generate MIDI -->
-  <form action="/generate" method="POST">
-    <button type="submit">Generate MIDI</button>
-  </form>
-
-  <!-- Audio player to play the MIDI file -->
-  <audio controls>
-    <source src="/midi/test_output.mid" type="audio/midi">
-    Your browser does not support the audio tag.
-  </audio>
-</div>
-
+    {% if midi_exists %}
+        <a href="{{ url_for('download_file') }}">Download MIDI File</a>
+    {% endif %}
 </body>
 </html>

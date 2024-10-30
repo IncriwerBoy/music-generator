@@ -1,30 +1,44 @@
-from flask import Flask, render_template, send_from_directory, request, redirect, url_for
+from flask import Flask, render_template, request, send_file, url_for, flash, redirect
 import os
-# from src.pipeline.generate_pipeline import GenerationPipeline
+from src.pipeline.generate_pipeline import GenerationPipeline
 
 application = Flask(__name__)
 app = application
 
+# Path where the MIDI file will be saved
 MIDI_FILE_PATH = 'artifacts/test_output.mid'
+app.secret_key = 'your_secret_key'  # For flashing messages
 
-
-# Route to serve the home page
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('home.html')
+    if request.method == 'POST':
+        generate_midi()
+        flash("Music generated successfully! Scroll down to download your file.")
+    return render_template('home.html', midi_exists=os.path.exists(MIDI_FILE_PATH))
 
-# Route to serve MIDI files
-@app.route('/midi/<filename>')
-def get_midi(filename):
-    return send_from_directory('artifacts',MIDI_FILE_PATH)
 
-# Simulate generating a new MIDI file
-@app.route('/generate', methods=['POST'])
 def generate_midi():
-    # pipeline = GenerationPipeline()
-    # midi_file = pipeline.generate_music()
+    """Function to generate the MIDI file using your pipeline."""
+    # Uncomment the following to use your actual pipeline:
+    pipeline = GenerationPipeline()
+    pipeline.generate_music()
 
-    return redirect(url_for('home'))
+    # Simulating the music generation for now.
+    with open(MIDI_FILE_PATH, 'w') as f:
+        f.write('Simulated MIDI content.')  # Placeholder content
+
+    print("Music generated and saved at:", MIDI_FILE_PATH)
+
+
+@app.route('/download')
+def download_file():
+    """Sends the MIDI file for download."""
+    if os.path.exists(MIDI_FILE_PATH):
+        return send_file(MIDI_FILE_PATH, as_attachment=True)
+    else:
+        flash("File not found!")
+        return redirect(url_for('home'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
